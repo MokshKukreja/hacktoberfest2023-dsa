@@ -1,0 +1,44 @@
+// Graph representation using an adjacency list
+class Graph {
+  constructor() {
+    this.adjList = new Map();
+  }
+
+  addVertex(vertex) {
+    if (!this.adjList.has(vertex)) {
+      this.adjList.set(vertex, []);
+    }
+  }
+
+  addEdge(vertex1, vertex2) {
+    this.adjList.get(vertex1).push(vertex2);
+    this.adjList.get(vertex2).push(vertex1);
+  }
+
+  // Flood fill algorithm
+  floodFill(start, visited) {
+    visited.add(start);
+    console.log("Visited node: ", start);
+
+    const neighbors = this.adjList.get(start);
+    for (let neighbor of neighbors) {
+      if (!visited.has(neighbor)) {
+        this.floodFill(neighbor, visited);
+      }
+    }
+  }
+}
+
+// Example usage:
+const graph = new Graph();
+const vertices = ["A", "B", "C", "D", "E", "F"];
+vertices.forEach((vertex) => graph.addVertex(vertex));
+
+graph.addEdge("A", "B");
+graph.addEdge("A", "C");
+graph.addEdge("B", "D");
+graph.addEdge("C", "E");
+graph.addEdge("E", "F");
+
+const visited = new Set();
+graph.floodFill("A", visited);
